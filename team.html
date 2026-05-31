@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>团队 · 星衡 Alpha / XingHeng Alpha</title>
+<style>
+:root{
+  --bg:#070b16;
+  --bg2:#0d1426;
+  --panel:#121a30;
+  --panel2:#0a101e;
+  --line:#23304f;
+  --text:#e9eefb;
+  --muted:#9bb0d0;
+  --soft:#7385a8;
+  --gold:#e9b949;
+  --green:#1fd18a;
+  --blue:#4aa3ff;
+  --grad:linear-gradient(120deg,#e9b949,#1fd18a);
+  --nav-bg:rgba(7,11,22,.84);
+  --max:1160px;
+}
+body.theme-light{
+  --bg:#f6f8fc;
+  --bg2:#edf2f7;
+  --panel:#ffffff;
+  --panel2:#f8fbff;
+  --line:#d8e1ee;
+  --text:#142033;
+  --muted:#536780;
+  --soft:#738299;
+  --gold:#b88718;
+  --green:#128a62;
+  --blue:#1f6fd1;
+  --nav-bg:rgba(246,248,252,.86);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Segoe UI",system-ui,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+    radial-gradient(58% 52% at 50% 0,rgba(31,209,138,.14),transparent 70%),
+    radial-gradient(42% 44% at 82% 6%,rgba(233,185,73,.13),transparent 72%),
+    linear-gradient(180deg,var(--bg),#091121 42%,#070b16);
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.48;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(180deg,#000,transparent 76%);
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:11px 18px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-weight:760;
+  transition:.2s ease;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+
+nav{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--nav-bg);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+nav .wrap{
+  height:64px;
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+.logo{font-weight:850;font-size:20px;letter-spacing:.4px}
+.logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.navlinks{display:flex;align-items:center;gap:22px;margin-left:auto;color:var(--muted);font-size:14px}
+.navlinks a:hover{color:var(--gold)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.navbtn{cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;color:var(--muted);background:transparent;font-family:inherit}
+.navbtn:hover{border-color:var(--gold);color:var(--gold)}
+.theme-dark-text{display:none}
+body.theme-light .theme-light-text{display:none}
+body.theme-light .theme-dark-text{display:inline}
+
+.hero{padding:82px 0 48px;text-align:center}
+.hero h1{
+  max-width:880px;
+  margin:0 auto;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.12;
+  font-weight:880;
+  letter-spacing:.2px;
+}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mbr{display:none}
+.lead{
+  max-width:760px;
+  margin:20px auto 0;
+  color:var(--muted);
+  font-size:17px;
+}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
+.signal{
+  max-width:920px;
+  margin:42px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.signal div{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(18,26,48,.78);
+  padding:16px 18px;
+  color:var(--muted);
+  font-size:14px;
+}
+.signal b{display:block;color:var(--text);font-size:17px;margin-bottom:2px}
+
+.team{padding:42px 0 92px}
+.member{
+  display:grid;
+  grid-template-columns:minmax(260px,.9fr) minmax(0,1.35fr);
+  gap:34px;
+  align-items:stretch;
+  margin-top:28px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(18,26,48,.95),rgba(9,15,28,.96));
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.28);
+}
+.member:nth-child(even){grid-template-columns:minmax(0,1.35fr) minmax(260px,.9fr)}
+.member:nth-child(even) .portrait-wrap{order:2}
+.portrait-wrap{
+  min-height:430px;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(233,185,73,.16),transparent 44%),
+    linear-gradient(180deg,rgba(31,209,138,.08),rgba(74,163,255,.05));
+  border-right:1px solid rgba(35,48,79,.72);
+}
+.member:nth-child(even) .portrait-wrap{border-right:0;border-left:1px solid rgba(35,48,79,.72)}
+.portrait{
+  height:100%;
+  min-height:382px;
+  border-radius:18px;
+  border:1px solid rgba(233,185,73,.28);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  overflow:hidden;
+  background:
+    linear-gradient(145deg,rgba(233,185,73,.14),rgba(31,209,138,.08)),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1px,transparent 1px 12px),
+    #0b1222;
+}
+.portrait img{
+  width:100%;
+  height:100%;
+  min-height:382px;
+  display:block;
+  object-fit:cover;
+  object-position:center 20%;
+}
+.portrait .initial{
+  width:118px;
+  height:118px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  margin:0 auto 18px;
+  border:1px solid rgba(233,185,73,.38);
+  background:rgba(7,11,22,.72);
+  color:var(--gold);
+  font-size:42px;
+  font-weight:880;
+}
+.portrait p{color:var(--muted);font-size:14px}
+.portrait small{display:block;color:var(--soft);font-size:12px;margin-top:6px}
+.member-body{padding:36px 38px 34px}
+.role{color:var(--green);font-size:13px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+.member h2{font-size:clamp(25px,3vw,36px);line-height:1.18;margin:9px 0 10px}
+.summary{color:#c8d4e9;font-size:17px;max-width:720px}
+.copy{margin-top:20px;color:var(--muted);font-size:15.5px}
+.copy p+p{margin-top:12px}
+.facts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:22px;
+}
+.fact{
+  min-height:96px;
+  border:1px solid rgba(35,48,79,.85);
+  border-radius:14px;
+  padding:14px;
+  background:rgba(7,11,22,.44);
+}
+.fact b{display:block;color:var(--gold);font-size:14px;margin-bottom:4px}
+.fact span{display:block;color:var(--muted);font-size:13px;line-height:1.55}
+.tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
+.tag{
+  border:1px solid rgba(31,209,138,.24);
+  border-radius:999px;
+  padding:6px 11px;
+  color:#b9ead5;
+  background:rgba(31,209,138,.07);
+  font-size:12.5px;
+}
+.profile-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+.profile-links a{
+  display:inline-flex;
+  align-items:center;
+  min-height:38px;
+  padding:8px 13px;
+  border-radius:999px;
+  border:1px solid rgba(233,185,73,.32);
+  color:var(--gold);
+  background:rgba(233,185,73,.06);
+  font-size:13px;
+  font-weight:760;
+}
+.profile-links a:hover{border-color:var(--gold);background:rgba(233,185,73,.1)}
+.note{
+  margin-top:34px;
+  border:1px solid rgba(233,185,73,.28);
+  border-radius:18px;
+  padding:22px 24px;
+  color:var(--muted);
+  background:rgba(233,185,73,.06);
+}
+.note b{color:var(--gold)}
+body.theme-light::before{
+  background:
+    radial-gradient(58% 52% at 50% 0,rgba(18,138,98,.12),transparent 70%),
+    radial-gradient(42% 44% at 82% 6%,rgba(184,135,24,.12),transparent 72%),
+    linear-gradient(180deg,#f6f8fc,#edf2f7 42%,#f6f8fc);
+}
+body.theme-light::after{
+  opacity:.58;
+  background-image:
+    linear-gradient(rgba(20,32,51,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(20,32,51,.055) 1px,transparent 1px);
+}
+body.theme-light .signal div,
+body.theme-light .fact{
+  background:rgba(255,255,255,.82);
+}
+body.theme-light .member{
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(246,249,253,.96));
+  box-shadow:0 24px 80px rgba(30,50,80,.12);
+}
+body.theme-light .portrait-wrap{
+  background:
+    radial-gradient(circle at 50% 18%,rgba(184,135,24,.13),transparent 44%),
+    linear-gradient(180deg,rgba(18,138,98,.08),rgba(31,111,209,.05));
+}
+body.theme-light .portrait{
+  background:#eef3f8;
+}
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 0;
+  text-align:center;
+  color:var(--soft);
+  font-size:13px;
+}
+
+@media(max-width:920px){
+  .navlinks{gap:14px}
+  .member,.member:nth-child(even){grid-template-columns:1fr}
+  .member:nth-child(even) .portrait-wrap{order:0}
+  .portrait-wrap,.member:nth-child(even) .portrait-wrap{min-height:auto;border:0;border-bottom:1px solid rgba(35,48,79,.72)}
+  .portrait{min-height:280px}
+  .portrait img{min-height:280px;max-height:520px}
+  .facts{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  nav .wrap{height:auto;min-height:64px;align-items:flex-start;flex-direction:column;padding-top:14px;padding-bottom:14px;gap:10px}
+  .navlinks{width:100%;justify-content:flex-start;flex-wrap:wrap;gap:10px 24px;font-size:13px}
+  .nav-actions{position:absolute;right:22px;top:14px}
+  .hero{padding:56px 0 34px;text-align:left}
+  .hero h1{font-size:32px;line-height:1.16;overflow-wrap:anywhere}
+  .mbr{display:block}
+  .lead{margin-left:0}
+  .hero-actions{justify-content:flex-start}
+  .signal{grid-template-columns:1fr;margin-top:28px}
+  .team{padding-top:24px}
+  .member-body{padding:28px 22px 26px}
+  .portrait-wrap{padding:16px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">星衡 <b>Alpha</b></a>
+    <div class="navlinks">
+      <a href="index.html">首页</a>
+      <a href="index.html#proof">验证</a>
+      <a href="index.html#trades">行仓样例</a>
+      <a href="index.html#ask">定向沟通</a>
+      <a href="team.html">关于我们</a>
+    </div>
+    <div class="nav-actions">
+      <button class="navbtn theme-toggle" type="button" onclick="toggleTheme()" aria-label="切换浅色或深色模式">
+        <span class="theme-light-text">浅色</span>
+        <span class="theme-dark-text">深色</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>一支来自<br class="mbr"><span>自动化、哲学</span><br class="mbr"><span>与脑启发智能</span><br class="mbr">交汇处的团队</h1>
+    <p class="lead">星衡 Alpha 由三位背景互补的成员组成：工程与模型、哲学与安全、脑启发智能与大模型对齐。不同视角汇聚于同一目标：理解、构建并校准更可靠的 AI。
+</p>
+    <div class="hero-actions">
+      <a class="btn" href="index.html">返回首页</a>
+      <a class="btn" href="index.html#ask">预约定向沟通</a>
+    </div>
+    <div class="signal">
+      <div><b>工程与模型</b>自动化训练、具身智能、AI 量化与系统化落地。</div>
+      <div><b>哲学与安全</b>技术社会、可解释性、AI 安全与思想框架。</div>
+      <div><b>前沿研究</b>脑启发 AI、大模型对齐、顶会论文与学术审稿。</div>
+    </div>
+  </div>
+</header>
+
+<main class="team">
+  <div class="wrap">
+    <article class="member">
+      <div class="portrait-wrap">
+        <div class="portrait"><img src="assets/team/mingyang.png" alt="吕明扬"></div>
+      </div>
+      <div class="member-body">
+        <div class="role">AI Quant / Embodied Intelligence / Safety</div>
+        <h2>吕明扬</h2>
+        <p class="summary">中国科学院自动化所博士研究生，本科毕业于西安交通大学自动化专业并辅修英语。研究兴趣横跨具身智能、AI 量化与 AI 安全，是典型的“工程系统 + 前沿模型”型研究者。</p>
+        <div class="copy">
+          <p>明扬的训练背景天然连接控制、智能体、算法系统与真实世界反馈。他关注的不只是模型能否给出答案，更关注模型如何在复杂环境中感知、行动、修正，并最终进入可验证的决策流程。</p>
+          <p>他拥有三段实习经历、一段创业经历和多项竞赛经历，具备从研究问题、工程实现到产品表达之间来回切换的经验。学术方面已有一作发表和在投论文四篇，并参与多篇其他作者论文，形成了兼具研究密度和落地意识的技术画像。</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>教育背景</b><span>西安交通大学自动化本科，中国科学院自动化所博士研究生。</span></div>
+          <div class="fact"><b>研究专长</b><span>具身智能、AI 量化、AI 安全，以及面向决策场景的模型系统。</span></div>
+          <div class="fact"><b>经历侧写</b><span>三段实习、一段创业、多项竞赛经历，兼具研究和实践敏感度。</span></div>
+        </div>
+        <div class="profile-links"><a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=sCrVbNsAAAAJ" target="_blank" rel="noopener">Google Scholar</a></div>
+        <div class="tags"><span class="tag">具身智能</span><span class="tag">AI 量化</span><span class="tag">AI 安全</span><span class="tag">创业经历</span></div>
+      </div>
+    </article>
+
+    <article class="member">
+      <div class="portrait-wrap">
+        <div class="portrait"><img src="assets/team/gongce.png" alt="曹公策"></div>
+      </div>
+      <div class="member-body">
+        <div class="role">AI Philosophy / Explainability / Safety</div>
+        <h2>曹公策</h2>
+        <p class="summary">中国科学院大学科技哲学专业博士研究生，本科毕业于西北大学哲学系并辅修计算机科学与技术。研究兴趣横跨 AI 技术与社会、AI 可解释性与安全、中国传统哲学和德国哲学。</p>
+        <div class="copy">
+          <p>公策的背景让他站在一个很少见的位置：既理解技术系统的结构，也长期训练于概念分析、解释框架和思想史。对 AI 系统而言，这种能力尤其重要，因为真正困难的问题往往不只在“模型能不能算”，还在“它为什么这样判断”。</p>
+          <p>他的研究视野覆盖技术社会、可解释性、安全边界与哲学传统，使团队在讨论 AI 金融系统时能更早意识到模型叙事、责任归因、认知偏差和社会后果。这样的跨学科气质，让星衡 Alpha 不只是一个追逐信号的系统，也更像一个追求可理解性的智能体。</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>教育背景</b><span>西北大学哲学本科，辅修计算机科学与技术。</span></div>
+          <div class="fact"><b>研究专长</b><span>AI 技术与社会、AI 可解释性与安全、传统哲学与德国哲学。</span></div>
+          <div class="fact"><b>学术气质</b><span>以哲学训练处理解释、边界、责任和技术系统的社会语境。</span></div>
+        </div>
+        <div class="tags"><span class="tag">AI 可解释性</span><span class="tag">AI 安全</span><span class="tag">科技哲学</span><span class="tag">跨学科判断</span></div>
+      </div>
+    </article>
+
+    <article class="member">
+      <div class="portrait-wrap">
+        <div class="portrait"><img src="assets/team/sicheng.png" alt="沈思成"></div>
+      </div>
+      <div class="member-body">
+        <div class="role">Brain-Inspired AI / LLM Alignment / Embodied AI</div>
+        <h2>沈思成</h2>
+        <p class="summary">中国科学院自动化研究所博士研究生、国家人工智能学院北京中关村学院博士研究生，长期致力于脑启发人工智能、大语言模型微调与安全对齐、具身智能等方向研究。</p>
+        <div class="copy">
+          <p>思成的研究路径带有鲜明的前沿 AI 色彩：从脑启发机制到大模型微调，从安全对齐到具身智能，关注的是智能系统如何学习、泛化、对齐，并在复杂任务中保持可靠性。</p>
+          <p>他以第一作者身份在 ICML、NeurIPS、IJCAI 等人工智能顶级会议发表多篇论文，并参与 Neural Networks、IEEE TCDS 等论文撰写；同时长期担任 ICML、NeurIPS、IEEE TBIOM 等顶级会议和期刊审稿人。这种持续处在高水平学术评审现场的经验，使他对模型方法、实验可信度和研究品味有很强的判断力。</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>教育背景</b><span>中国科学院自动化研究所博士研究生，国家人工智能学院博士研究生。</span></div>
+          <div class="fact"><b>学术成果</b><span>第一作者发表 ICML、NeurIPS、IJCAI 等顶会论文多篇。</span></div>
+          <div class="fact"><b>研究专长</b><span>脑启发 AI、大语言模型微调与安全对齐、具身智能。</span></div>
+        </div>
+        <div class="profile-links"><a href="https://scholar.google.com/citations?user=TuNfBGAAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a><a href="https://fancyssc.github.io/" target="_blank" rel="noopener">个人主页</a></div>
+        <div class="tags"><span class="tag">脑启发 AI</span><span class="tag">LLM 安全对齐</span><span class="tag">具身智能</span><span class="tag">顶会审稿</span></div>
+      </div>
+    </article>
+
+    <div class="note"><b>团队气质：</b>在初创阶段，星衡 Alpha 更像一个由不同知识谱系交汇出来的研究型团队：自动化提供系统与控制感，哲学提供解释与边界感，脑启发智能和大模型研究提供前沿方法感。我们相信，这种组合会比单一背景更适合处理“AI + 投资决策”这样复杂而高风险的问题。</div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 星衡 Alpha · XingHeng Alpha</div>
+</footer>
+<script>
+function applyTheme(theme){
+  document.body.classList.toggle('theme-light', theme === 'light');
+  try{localStorage.setItem('xh-theme', theme)}catch(e){}
+}
+
+function toggleTheme(){
+  applyTheme(document.body.classList.contains('theme-light') ? 'dark' : 'light');
+}
+
+try{
+  const requestedTheme = new URLSearchParams(location.search).get('theme');
+  if(requestedTheme === 'light') applyTheme('light');
+  else if(localStorage.getItem('xh-theme') === 'light') document.body.classList.add('theme-light');
+}catch(e){}
+</script>
+</body>
+</html>
